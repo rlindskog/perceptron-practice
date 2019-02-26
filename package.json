@@ -1,0 +1,22 @@
+{
+  "name": "neural-network",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rlindskog/neural-network.git"
+  },
+  "author": "Ryan Lindskog",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rlindskog/neural-network/issues"
+  },
+  "homepage": "https://github.com/rlindskog/neural-network#readme",
+  "devDependencies": {
+    "serve": "^10.1.2"
+  }
+}
