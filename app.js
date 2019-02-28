@@ -4,15 +4,15 @@ import Graph from './graph.js'
 const graphLength = 500
 const g = new Graph({ length: graphLength})
 
-const brain = new Perceptron(0.001, 2)
+const brain = new Perceptron(0.3, 2)
 
-const NUM_POINTS = 500
+const NUM_POINTS = 1000
 let trainingData = []
 
 // generating random training data
 for (let i = 0; i < NUM_POINTS; i++) {
-  let x = Math.random()
-  let y = Math.random()
+  let x = Math.random() * 2 - 1
+  let y = Math.random() * 2 - 1
   let color = 'black'
   let answer = -1
   if (x >= y) {
@@ -21,14 +21,14 @@ for (let i = 0; i < NUM_POINTS; i++) {
   }
   // draw the points to the graph
   trainingData.push({ inputs: [x, y, 1], answer })
-  g.drawPoint(x * graphLength, y * graphLength, color)
+  g.drawPoint(x * graphLength, y * graphLength, { color })
 }
 
 // draw out the untrained points
 trainingData.forEach(({ inputs, answer }) => {
   const guess = brain.feedForward(inputs)
   const color = guess === answer ? 'green' : 'red'
-  g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, color)
+  g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, { color })
 })
 
 // tain / giess with new weights
@@ -38,8 +38,9 @@ document.body.addEventListener('click', e => {
     // guess with new weights
     const guess = brain.feedForward(inputs)
     const color = guess === answer ? 'green' : 'red'
-    g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, color)
+    g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, { color })
   }
+  console.log('new weights', brain.weights)
 })
 
 
@@ -62,4 +63,4 @@ document.body.addEventListener('click', e => {
 // })
 
 // a line that signifies the activation function (where a points point.x >=  point.y)
-g.drawLine(0, 0, 500, 500, 'grey')
+g.drawLine(-250, -250, 250, 250, { color: 'grey' })
