@@ -1,11 +1,11 @@
 const rand = () => Math.random() * 2 - 1
 
 export default class Perceptron {
-  constructor (length = 2, learningRate = 0.1) {
+  constructor (learningRate = 0.1, length = 2) {
     this.learningRate = learningRate
     // input weights
     this.weights = new Array(length)
-    for (let i = 0; i < length; i++) {
+    for (let i in [...this.weights]) {
       this.weights[i] = rand()
     }
   }
@@ -13,11 +13,11 @@ export default class Perceptron {
   /**
    * 
    * @param {Array<number>} inputs - Array of inputs that we're trying to classify
-   * @param {number} target - The known answer
+   * @param {number} label - The known answer of those inputs
    */
-  train (inputs, target) {
-    const guess = this.feedforward(inputs)
-    const error = target - guess
+  train (inputs, label) {
+    const guess = this.feedForward(inputs)
+    const error = label - guess
     for (let i in this.weights) {
       this.weights[i] += error * inputs[i] * this.learningRate
     }
@@ -28,7 +28,7 @@ export default class Perceptron {
    * Once weighted sum of inputs is found, it is passed to this.active(sum)
    * @param {Array<number>} inputs - Inputs
    */
-  feedforward (inputs) {
+  feedForward (inputs) {
     const sum = this.weights.reduce((sum, weight, i) => sum + inputs[i] * weight, 0)
     return this.activate(sum)
   }

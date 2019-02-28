@@ -2,26 +2,23 @@ import Perceptron from './perceptron.js'
 import Graph from './graph.js'
 
 const graphLength = 500
-const g = new Graph({ length: graphLength, pointRadius: 5 })
+const g = new Graph({ length: graphLength})
 
-const brain = new Perceptron(2, 0.5)
+const brain = new Perceptron(0.001, 2)
 
+const NUM_POINTS = 500
 let trainingData = []
 
 // generating random training data
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < NUM_POINTS; i++) {
   let x = Math.random()
   let y = Math.random()
-  let color
-  let answer
+  let color = 'black'
+  let answer = -1
   if (x >= y) {
     color = 'white'
     answer = 1
-  } else {
-    color = 'black'
-    answer = -1
   }
-
   // draw the points to the graph
   trainingData.push({ inputs: [x, y, 1], answer })
   g.drawPoint(x * graphLength, y * graphLength, color)
@@ -29,25 +26,20 @@ for (let i = 0; i < 100; i++) {
 
 // draw out the untrained points
 trainingData.forEach(({ inputs, answer }) => {
-  const guess = brain.feedforward(inputs)
-  if (guess === answer) {
-    g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, 'green')
-  } else {
-    g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, 'red')
-  }
+  const guess = brain.feedForward(inputs)
+  const color = guess === answer ? 'green' : 'red'
+  g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, color)
 })
 
+// tain / giess with new weights
 document.body.addEventListener('click', e => {
   for (let { inputs, answer } of trainingData) {
     brain.train(inputs, answer)
-    const guess = brain.feedforward(inputs)
-    if (guess === answer) {
-      g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, 'green')
-    } else {
-      g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, 'red')
-    }
+    // guess with new weights
+    const guess = brain.feedForward(inputs)
+    const color = guess === answer ? 'green' : 'red'
+    g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, color)
   }
-  console.log("new weights", brain.weights)
 })
 
 
@@ -57,7 +49,7 @@ document.body.addEventListener('click', e => {
 //   let { inputs, answer } = trainingData[trainingIndex]
 //   brain.train(inputs, answer)
 //   // console.log(brain.weights)
-//   const guess = brain.feedforward(inputs)
+//   const guess = brain.feedForward(inputs)
 //   if (guess === answer) {
 //     g.drawPoint(inputs[0] * graphLength, inputs[1] * graphLength, 'green')
 //   } else {
@@ -69,4 +61,5 @@ document.body.addEventListener('click', e => {
 //   }
 // })
 
+// a line that signifies the activation function (where a points point.x >=  point.y)
 g.drawLine(0, 0, 500, 500, 'grey')
