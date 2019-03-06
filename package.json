@@ -18,5 +18,6 @@
   "homepage": "https://github.com/rlindskog/neural-network#readme",
   "devDependencies": {
     "serve": "^10.1.2"
-  }
+  },
+  "dependencies": {}
 }
